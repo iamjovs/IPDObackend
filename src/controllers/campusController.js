@@ -1,10 +1,11 @@
 
-const authService = require('../services/campusService');
+const campusService = require('../services/campusService');
+const { AuthenticationError, ServiceError } = require('../services/errorType');
 
 exports.addCampus = async (req, res) => {
     try{
         const {name} = req.body;
-        const newCampus = await authService.addCampus(name.toLowerCase());
+        const newCampus = await campusService.addCampus(name.toLowerCase());
         res.status(200).json({
             sucess: true, 
             message: 'Campus added Successfully',
@@ -19,7 +20,7 @@ exports.addCampus = async (req, res) => {
 exports.editCampus = async (req, res) => {
     try{
         const {id, name} = req.body;
-        const editedCampus = await authService.editCampus( id, name.toLowerCase());
+        const editedCampus = await campusService.editCampus( id, name.toLowerCase());
         res.status(200).json({
             sucess: true, 
             message: 'Campus Updated',
@@ -34,7 +35,7 @@ exports.editCampus = async (req, res) => {
 exports.deleteCampus = async (req, res) => {
     try{
         const {id} = req.body;
-        const deletedCampus = await authService.deleteCampus(id);
+        const deletedCampus = await campusService.deleteCampus(id);
         res.status(200).json({
             success: true,
             message: 'Campus deleted successfully',
@@ -49,7 +50,7 @@ exports.deleteCampus = async (req, res) => {
 
 exports.getAllCampus = async (req, res) => {
     try {
-        const allCampus = await authService.getAllCampus();
+        const allCampus = await campusService.getAllCampus();
         res.status(200).json({
             success: true,
             message: 'Campuses retrieved successfully',

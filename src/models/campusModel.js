@@ -16,4 +16,6 @@ const Campus = sequelize.define("Campus", {
 });
 
 
+
+
 module.exports = Campus;

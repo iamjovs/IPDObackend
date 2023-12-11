@@ -40,8 +40,10 @@ User.beforeCreate((user) => {
 });
 
 User.belongsTo(Campus, {
-    foreignKey: 'campusId',
+    foreignKey: 'campusid',
     allowNull: false,
 });
+
+
 
 module.exports = User;
