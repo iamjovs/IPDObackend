@@ -1,19 +1,43 @@
 const express = require("express");
 const bodyParser = require("body-parser");
 const campusRoutes = require("./src/routes/campusRouter");
-const userRoutes = require("./src/routes/userRouter");
+const api= require("./src/routes/indexRoute");
 const sequelize = require('./src/config/database');
-const { errorHandler } = require('./src/middlewares/errorHandler');
 const cors = require('cors');
-const app = express();
+const { default: helmet } = require("helmet");
+const morgan = require("morgan");
 const PORT = process.env.PORT || 3000;
 
-app.use(bodyParser.json());
-app.use(errorHandler);
-app.use(cors());
+require('dotenv').config();
 
-app.use("/campus", campusRoutes);
-app.use("/user", userRoutes);
+require("./src/middlewares/passport");
+
+require("./src/models/userModel");
+const middlewares = require("./src/middlewares/errorHandler");
+
+const app = express();
+
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({extended: true}));
+
+app.use(morgan("dev"))
+app.use(helmet());
+app.use(cors());
+app.use(express.json());
+
+
+
+
+
+app.use("/api/v1", api);
+app.get("/", (req, res) => {
+  res.json({
+    message: "🦄🌈✨👋🌎🌍🌏✨🌈🦄",
+  });
+});
+
+app.use(middlewares.notFound);
+app.use(middlewares.errorHandler);
 
 sequelize
   .sync({ force: false })

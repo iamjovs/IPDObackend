@@ -1,9 +1,9 @@
-const { DataTypes, UUIDV4 } = require('sequelize');
-const sequelize = require('../config/database');
-const bcrypt = require('bcrypt');
-const Campus = require('./campusModel');
+const { DataTypes, UUIDV4 } = require("sequelize");
+const sequelize = require("../config/database");
+const bcrypt = require("bcrypt");
+const Campus = require("./campusModel");
 
-const User = sequelize.define('User', {
+const User = sequelize.define("User", {
   id: {
     type: DataTypes.UUID,
     defaultValue: DataTypes.UUIDV4,
@@ -27,6 +27,10 @@ const User = sequelize.define('User', {
     type: DataTypes.STRING,
     allowNull: false,
   },
+  role: {
+    type: DataTypes.STRING,
+    allowNull: false,
+  },
 });
 
 User.prototype.validatePassword = function (password) {
@@ -40,10 +44,8 @@ User.beforeCreate((user) => {
 });
 
 User.belongsTo(Campus, {
-    foreignKey: 'campusid',
-    allowNull: false,
+  foreignKey: "campusid",
+  allowNull: false,
 });
-
-
 
 module.exports = User;
